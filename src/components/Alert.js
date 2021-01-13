@@ -3,14 +3,13 @@ import { AlertContext } from '../context/alert/alertContext';
 
 export const Alert = () => {
     const { alert, hide } = useContext(AlertContext);
-    if (! alert) {
+    if (! alert.visible) {
         return null;
     }
     return(
         <div className={`alert alert-${alert.type || 'warning'} alert-dismissible`}>
-            <strong>Warning!</strong>
-            {alert.text}
-            <button type="button" className="btn-close" onClick={hide}></button>
+            <strong>Warning!</strong> {alert.text}
+            <button type="button" className="close btn-close" onClick={hide}>&times;</button>
         </div>
     );
 };
