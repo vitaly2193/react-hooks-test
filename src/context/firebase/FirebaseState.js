@@ -19,7 +19,13 @@ export const FirebaseState = ({children}) => {
     const fetchNotes = async () => {
         showLoader();
         const res = await axios.get(`${url}/notes.json`);
-        console.log(res.data);
+        const payload = Object.keys(res.data).map(key => {
+            return({
+                ...res.data[key],
+                id: key
+            });
+        });
+        dispatch({type: FETCH_NOTES, payload});
     };
 
     const addNote = async (title) => {
@@ -27,8 +33,16 @@ export const FirebaseState = ({children}) => {
             title,
             date: new Date().toJSON()
         };
-        const res = await axios.post(`${url}/notes.json`, note);
-        console.log(res.data);
+        try {
+            const res = await axios.post(`${url}/notes.json`, note);
+            const payload = {
+                ...note,
+                id: res.data.name
+            };
+            dispatch({type: ADD_NOTE, payload});
+        } catch (error) {
+            throw new Error(error.message);
+        }
     };
 
     const removeNote = async (id) => {
