@@ -1,34 +1,40 @@
 import React, { useContext } from 'react';
 import { AlertContext } from '../context/alert/alertContext';
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 export const Notes = ( { notes, onRemove } ) => {
     const alert = useContext(AlertContext);
     return(
-        <ul className="list-group">
+        <TransitionGroup component="ul" className="list-group">
             {notes.map((note) => (
-                <li
-                    className="list-group-item note"
+                <CSSTransition
                     key={note.id}
+                    classNames={'note'}
+                    timeout={350}
                 >
-                    <div>
-                        <strong>{note.title}</strong>
-                        <small>{note.date}</small>
-                    </div>
-                    <button
-                        type="button"
-                        className="btn btn-outline-danger btn-sm"
-                        onClick={() => {
-                            onRemove(note.id)
-                            .then(() => {
-                                alert.show('Notice removed.', 'secondary');
-                            });
-                        }}
+                    <li
+                        className="list-group-item note"
                     >
-                        &times;
-                    </button>
-                </li>
+                        <div>
+                            <strong>{note.title}</strong>
+                            <small>{note.date}</small>
+                        </div>
+                        <button
+                            type="button"
+                            className="btn btn-outline-danger btn-sm"
+                            onClick={() => {
+                                onRemove(note.id)
+                                .then(() => {
+                                    alert.show('Notice removed.', 'secondary');
+                                });
+                            }}
+                        >
+                            &times;
+                        </button>
+                    </li>
+                </CSSTransition>
             ))}
             
-        </ul>
+        </TransitionGroup>
     )
 };

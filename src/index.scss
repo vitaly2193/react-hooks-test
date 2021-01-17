@@ -23,3 +23,47 @@ code {
     margin-right: 1rem;
   }
 }
+
+.alert {
+
+  &-enter {
+    opacity: 0;
+  }
+
+  &-enter-active {
+    opacity: 1;
+    transition: ease 250ms;
+  }
+
+  &-exit-active {
+    opacity: 0;
+    transition: ease 250ms;
+  }
+}
+
+@keyframes note {
+  0% {
+    transform: translateX(0);
+  }
+
+  30% {
+    opacity: .7;
+    transform: translateX(30px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-200px);
+  }
+}
+
+.note {
+
+  &-enter-active {
+    animation: note .35s alternate-reverse;
+  }
+
+  &-exit-active {
+    animation: note .35s forwards;
+  }
+}
